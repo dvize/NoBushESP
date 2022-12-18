@@ -7,9 +7,20 @@ using UnityEngine;
 
 namespace NoBushESP
 {
+
     public class AIESPPatcherAimPlayer : ModulePatch
     {
 
+        public static WildSpawnType[] bossesList = { WildSpawnType.bossBully, WildSpawnType.bossKilla, WildSpawnType.bossKojaniy, WildSpawnType.bossGluhar, WildSpawnType.bossSanitar, WildSpawnType.bossTagilla,
+                WildSpawnType.bossKnight, WildSpawnType.sectantWarrior, WildSpawnType.sectantPriest };
+
+        public static WildSpawnType[] followersList = { WildSpawnType.followerBully, WildSpawnType.followerKojaniy, WildSpawnType.followerGluharAssault, WildSpawnType.followerGluharSecurity, WildSpawnType.followerGluharScout,
+                WildSpawnType.followerGluharSnipe, WildSpawnType.followerSanitar, WildSpawnType.followerTagilla, WildSpawnType.followerBigPipe, WildSpawnType.followerBirdEye };
+
+        public static WildSpawnType[] pmcList = { WildSpawnType.pmcBot, WildSpawnType.exUsec, WildSpawnType.gifter, AIPatcherPlugin.sptUsec, AIPatcherPlugin.sptBear };
+
+        public static WildSpawnType[] scavList = { WildSpawnType.assault, WildSpawnType.marksman, WildSpawnType.cursedAssault, WildSpawnType.assaultGroup };
+        
         protected override MethodBase GetTargetMethod()
         {
             return typeof(BotGroupClass).GetMethod("CalcGoalForBot");
@@ -28,6 +39,27 @@ namespace NoBushESP
                 
                 if (person.GetPlayer.IsYourPlayer)
                 {
+                    
+                    if (scavList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.ScavsStillSee)
+                    {
+                        return;
+                    }
+
+                    if (bossesList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.BossesStillSee)
+                    {
+                        return;
+                    }
+
+                    if (followersList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.BossFollowersStillSee)
+                    {
+                        return;
+                    }
+
+                    if (pmcList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.PMCsStillSee)
+                    {
+                        return;
+                    }
+
                     RaycastHit hitInfo;
                     float radius = 1.0f;  //need to tweak this for width
                     float maxdistance = 137f; // what is bots vision range.  137f
