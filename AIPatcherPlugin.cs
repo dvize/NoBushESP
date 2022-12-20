@@ -10,6 +10,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using EFT;
 using System.IO;
+using System.Reflection;
 
 namespace NoBushESP
 {
@@ -24,10 +25,21 @@ namespace NoBushESP
         }
 
         public static theConfig config;
-        public static EFT.WildSpawnType sptUsec = (EFT.WildSpawnType)Enum.Parse(typeof(EFT.WildSpawnType), "sptUsec");
-        public static EFT.WildSpawnType sptBear = (EFT.WildSpawnType)Enum.Parse(typeof(EFT.WildSpawnType), "sptBear");
+        public static object sptUsec;
+        public static object sptBear;
         public void Start()
         {
+            Type wildspawnType = Type.GetType("WildSpawnType");
+
+            if (wildspawnType != null)
+            {
+                // Use the Enum.Parse method to get the enum value for "sptUsec"
+                sptUsec = Enum.Parse(wildspawnType, "sptUsec");
+
+                // Use the Enum.Parse method to get the enum value for "sptBear"
+                sptBear = Enum.Parse(wildspawnType, "sptBear");
+            }
+            
             string fileName = "dvize.BushNoESPConfig.json";
             var json = File.ReadAllText(fileName);
             config = JsonConvert.DeserializeObject<theConfig>(json);

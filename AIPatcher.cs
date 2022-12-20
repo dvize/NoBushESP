@@ -17,7 +17,7 @@ namespace NoBushESP
         public static WildSpawnType[] followersList = { WildSpawnType.followerBully, WildSpawnType.followerKojaniy, WildSpawnType.followerGluharAssault, WildSpawnType.followerGluharSecurity, WildSpawnType.followerGluharScout,
                 WildSpawnType.followerGluharSnipe, WildSpawnType.followerSanitar, WildSpawnType.followerTagilla, WildSpawnType.followerBigPipe, WildSpawnType.followerBirdEye };
 
-        public static WildSpawnType[] pmcList = { WildSpawnType.pmcBot, WildSpawnType.exUsec, WildSpawnType.gifter, AIPatcherPlugin.sptUsec, AIPatcherPlugin.sptBear };
+        public static WildSpawnType[] pmcList = { WildSpawnType.pmcBot, WildSpawnType.exUsec, WildSpawnType.gifter, (WildSpawnType)AIPatcherPlugin.sptUsec, (WildSpawnType)AIPatcherPlugin.sptBear };
 
         public static WildSpawnType[] scavList = { WildSpawnType.assault, WildSpawnType.marksman, WildSpawnType.cursedAssault, WildSpawnType.assaultGroup };
         
@@ -30,7 +30,7 @@ namespace NoBushESP
         public static void PatchPostfix(BotOwner bot)
         {
             //Need when enemy is alerted to player 
-
+            
             object goalEnemy = bot.Memory.GetType().GetProperty("GoalEnemy").GetValue(bot.Memory);
 
             if (goalEnemy != null)
@@ -39,7 +39,7 @@ namespace NoBushESP
                 
                 if (person.GetPlayer.IsYourPlayer)
                 {
-                    
+                    //skip if config says disabled
                     if (scavList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.ScavsStillSee)
                     {
                         return;
@@ -67,8 +67,8 @@ namespace NoBushESP
 
 
                     //bool isVisible = (bool)goalEnemy.GetType().GetProperty("IsVisible").GetValue(goalEnemy);
-
-                    if (Physics.SphereCast(bot.gameObject.transform.position, radius, person.GetPlayer.gameObject.transform.forward, out hitInfo, maxdistance, layermask))
+                    
+                    if (Physics.SphereCast(bot.Position, radius, person.GetPlayer.Position, out hitInfo, maxdistance, layermask))
                     {
                         //Logger.LogInfo("Object Name: " + hitInfo.collider.gameObject.name);
                         //Logger.LogInfo("Object Layer: " + hitInfo.collider.gameObject.layer);
@@ -76,7 +76,11 @@ namespace NoBushESP
                         if ((hitInfo.collider.transform.parent?.gameObject?.name?.Contains("filbert") == true) || (hitInfo.collider.transform.parent?.gameObject?.name?.Contains("fibert") == true))
                         {
                             //Logger.LogInfo("filbert or Fibert in the way");
-                            bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
+
+                           // Logger.LogInfo("Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
+                            goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
+                            
+                            //bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
                         }
 
                     }
