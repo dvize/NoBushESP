@@ -13,6 +13,7 @@ namespace NoBushESP
     [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.1.0")]
     class AIPatcherPlugin : BaseUnityPlugin
     {
+        public static ConfigEntry<bool> BlockingTypeGoalEnemy;
         public static ConfigEntry<float> TestRayRadius;
         public static ConfigEntry<float> TestRayMaxDistance;
         public static ConfigEntry<bool> BossesStillSee;
@@ -22,6 +23,12 @@ namespace NoBushESP
 
         private void Awake()
         {
+            BlockingTypeGoalEnemy = Config.Bind(
+                "Main Settings",
+                "True = GoalEnemy Clear or False = IsVisible Set False",
+                true,
+                "Set True or False to preferred method");
+            
             TestRayRadius = Config.Bind(
                 "Main Settings",
                 "Width of the Ray that checks if obstruction",

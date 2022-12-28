@@ -80,9 +80,16 @@ namespace NoBushESP
                             //Logger.LogInfo("filbert or Fibert in the way");
 
                             // Logger.LogInfo("Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
-                            goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
+
+                            if (AIPatcherPlugin.BlockingTypeGoalEnemy.Value == true)
+                            {
+                                bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
+                            }
+                            else
+                            {
+                                goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
+                            }
                             
-                            //bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
                         }
 
                     }
