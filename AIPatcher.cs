@@ -75,7 +75,7 @@ namespace NoBushESP
                         //Logger.LogInfo("Object Name: " + hitInfo.collider.gameObject.name);
                         //Logger.LogInfo("Object Layer: " + hitInfo.collider.gameObject.layer);
 
-                        if (exclusionList.Contains(hitInfo.collider.transform.parent?.gameObject?.name))
+                        if (exclusionList.Contains(hitInfo.collider.transform.parent?.gameObject?.name.ToLower()))
                         {
                             //Logger.LogInfo("filbert or Fibert in the way");
 
