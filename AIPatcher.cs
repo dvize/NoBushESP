@@ -1,6 +1,7 @@
 ﻿using Aki.Reflection.Patching;
 using EFT;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -20,7 +21,8 @@ namespace NoBushESP
         public static WildSpawnType[] pmcList = { WildSpawnType.pmcBot, WildSpawnType.exUsec, WildSpawnType.gifter, (WildSpawnType)AIPatcherPlugin.sptUsec, (WildSpawnType)AIPatcherPlugin.sptBear };
 
         public static WildSpawnType[] scavList = { WildSpawnType.assault, WildSpawnType.marksman, WildSpawnType.cursedAssault, WildSpawnType.assaultGroup };
-        
+
+        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant"};
         protected override MethodBase GetTargetMethod()
         {
             return typeof(BotGroupClass).GetMethod("CalcGoalForBot");
@@ -40,44 +42,44 @@ namespace NoBushESP
                 if (person.GetPlayer.IsYourPlayer)
                 {
                     //skip if config says disabled
-                    if (scavList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.ScavsStillSee)
+                    if (scavList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.ScavsStillSee.Value)
                     {
                         return;
                     }
 
-                    if (bossesList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.BossesStillSee)
+                    if (bossesList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.BossesStillSee.Value)
                     {
                         return;
                     }
 
-                    if (followersList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.BossFollowersStillSee)
+                    if (followersList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.BossFollowersStillSee.Value)
                     {
                         return;
                     }
 
-                    if (pmcList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.config.PMCsStillSee)
+                    if (pmcList.Contains(bot.Profile.Info.Settings.Role) && AIPatcherPlugin.PMCsStillSee.Value)
                     {
                         return;
                     }
 
                     RaycastHit hitInfo;
-                    float radius = 1.0f;  //need to tweak this for width
-                    float maxdistance = 137f; // what is bots vision range.  137f
+                    //float radius = 1.0f;  //need to tweak this for width
+                    //float maxdistance = 137f; // what is bots vision range.  137f
                     LayerMask layermask = 1 << 0 | 1 << 11 | 1 << 26;
 
 
                     //bool isVisible = (bool)goalEnemy.GetType().GetProperty("IsVisible").GetValue(goalEnemy);
                     
-                    if (Physics.SphereCast(bot.Position, radius, person.GetPlayer.Position, out hitInfo, maxdistance, layermask))
+                    if (Physics.SphereCast(bot.Position, AIPatcherPlugin.TestRayRadius.Value, person.GetPlayer.Position, out hitInfo, AIPatcherPlugin.TestRayMaxDistance.Value, layermask))
                     {
                         //Logger.LogInfo("Object Name: " + hitInfo.collider.gameObject.name);
                         //Logger.LogInfo("Object Layer: " + hitInfo.collider.gameObject.layer);
 
-                        if ((hitInfo.collider.transform.parent?.gameObject?.name?.Contains("filbert") == true) || (hitInfo.collider.transform.parent?.gameObject?.name?.Contains("fibert") == true))
+                        if (exclusionList.Contains(hitInfo.collider.transform.parent?.gameObject?.name))
                         {
                             //Logger.LogInfo("filbert or Fibert in the way");
 
-                           // Logger.LogInfo("Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
+                            // Logger.LogInfo("Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
                             goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
                             
                             //bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);

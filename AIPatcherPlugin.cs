@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mono.Cecil;
 using BepInEx;
 using BepInEx.Configuration;
 using UnityEngine;
@@ -15,16 +10,59 @@ using System.Reflection;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.0.0")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.1.0")]
     class AIPatcherPlugin : BaseUnityPlugin
     {
-        
+        public static ConfigEntry<float> TestRayRadius;
+        public static ConfigEntry<float> TestRayMaxDistance;
+        public static ConfigEntry<bool> BossesStillSee;
+        public static ConfigEntry<bool> BossFollowersStillSee;
+        public static ConfigEntry<bool> ScavsStillSee;
+        public static ConfigEntry<bool> PMCsStillSee;
+
         private void Awake()
         {
+            TestRayRadius = Config.Bind(
+                "Main Settings",
+                "Width of the Ray that checks if obstruction",
+                1.0f,
+                "Don't set this not too small");
+
+            TestRayMaxDistance = Config.Bind(
+                "Main Settings",
+                "Max Distance Ray that checks if obstruction",
+                300.0f,
+                "Default value is 137.0f for Vision... Trying 300 for woods.");
+            
+            BossesStillSee = Config.Bind(
+                "Role Types",
+                "Bosses Still See Through Bushes",
+                false,
+                "Bosses Still See Through Bushes");
+
+            BossFollowersStillSee = Config.Bind(
+                "Role Types",
+                "Boss Followers Still See Through Bushes",
+                false,
+                "Boss Followers Still See Through Bushes");
+
+            ScavsStillSee = Config.Bind(
+               "Role Types",
+               "Scavs Still See Through Bushes",
+               false,
+               "Scavs Still See Through Bushes");
+
+            PMCsStillSee = Config.Bind(
+                "Role Types",
+                "PMCs Still See Through Bushes",
+                false,
+                "PMCs Still See Through Bushes");
+            
+
             new AIESPPatcherAimPlayer().Enable();
         }
 
-        public static theConfig config;
+
         public static object sptUsec;
         public static object sptBear;
         public void Start()
@@ -40,18 +78,8 @@ namespace NoBushESP
                 sptBear = Enum.Parse(wildspawnType, "sptBear");
             }
             
-            string fileName = "dvize.BushNoESPConfig.json";
-            var json = File.ReadAllText(fileName);
-            config = JsonConvert.DeserializeObject<theConfig>(json);
 
         }
         
-        public class theConfig
-        {
-            public bool BossesStillSee { get; set; }
-            public bool BossFollowersStillSee { get; set; }
-            public bool PMCsStillSee { get; set; }
-            public bool ScavsStillSee { get; set; }
-        }
     }
 }
