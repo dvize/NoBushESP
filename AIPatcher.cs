@@ -69,8 +69,9 @@ namespace NoBushESP
 
 
                     //bool isVisible = (bool)goalEnemy.GetType().GetProperty("IsVisible").GetValue(goalEnemy);
-                    
-                    if (Physics.SphereCast(bot.Position, AIPatcherPlugin.TestRayRadius.Value, person.GetPlayer.Position, out hitInfo, AIPatcherPlugin.TestRayMaxDistance.Value, layermask))
+                    float maxdistance = Vector3.Distance(bot.Position, person.GetPlayer.Position);
+
+                    if (Physics.SphereCast(bot.Position, AIPatcherPlugin.TestRayRadius.Value, person.GetPlayer.Position, out hitInfo, maxdistance, layermask))
                     {
                         //Logger.LogInfo("Object Name: " + hitInfo.collider.gameObject.name);
                         //Logger.LogInfo("Object Layer: " + hitInfo.collider.gameObject.layer);

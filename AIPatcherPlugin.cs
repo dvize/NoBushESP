@@ -15,7 +15,6 @@ namespace NoBushESP
     {
         public static ConfigEntry<bool> BlockingTypeGoalEnemy;
         public static ConfigEntry<float> TestRayRadius;
-        public static ConfigEntry<float> TestRayMaxDistance;
         public static ConfigEntry<bool> BossesStillSee;
         public static ConfigEntry<bool> BossFollowersStillSee;
         public static ConfigEntry<bool> ScavsStillSee;
@@ -25,7 +24,7 @@ namespace NoBushESP
         {
             BlockingTypeGoalEnemy = Config.Bind(
                 "Main Settings",
-                "True = GoalEnemy Clear or False = IsVisible Set False",
+                "Enabled means GoalEnemy Method, Disabled means IsVisible Method",
                 true,
                 "Set True or False to preferred method");
             
@@ -34,12 +33,6 @@ namespace NoBushESP
                 "Width of the Ray that checks if obstruction",
                 1.0f,
                 "Don't set this not too small");
-
-            TestRayMaxDistance = Config.Bind(
-                "Main Settings",
-                "Max Distance Ray that checks if obstruction",
-                300.0f,
-                "Default value is 137.0f for Vision... Trying 300 for woods.");
             
             BossesStillSee = Config.Bind(
                 "Role Types",
