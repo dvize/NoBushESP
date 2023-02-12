@@ -10,8 +10,8 @@ using System.Reflection;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.1.0")]
-    class AIPatcherPlugin : BaseUnityPlugin
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.2.0")]
+    class NoBushESPPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> BlockingTypeGoalEnemy;
         public static ConfigEntry<float> TestRayRadius;
@@ -58,26 +58,17 @@ namespace NoBushESP
                 false,
                 "PMCs Still See Through Bushes");
             
-
-            new AIESPPatcherAimPlayer().Enable();
         }
 
-
-        public static object sptUsec;
-        public static object sptBear;
+        public static EFT.WildSpawnType sptBear;
+        public static EFT.WildSpawnType sptUsec;
         public void Start()
         {
-            Type wildspawnType = Type.GetType("WildSpawnType");
 
-            if (wildspawnType != null)
-            {
-                // Use the Enum.Parse method to get the enum value for "sptUsec"
-                sptUsec = Enum.Parse(wildspawnType, "sptUsec");
-
-                // Use the Enum.Parse method to get the enum value for "sptBear"
-                sptBear = Enum.Parse(wildspawnType, "sptBear");
-            }
+            sptBear = (WildSpawnType)Enum.Parse(typeof(EFT.WildSpawnType), "sptBear");
+            sptUsec = (WildSpawnType)Enum.Parse(typeof(EFT.WildSpawnType), "sptUsec");
             
+            new BushPatch().Enable();
 
         }
         
