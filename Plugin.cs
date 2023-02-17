@@ -31,7 +31,7 @@ namespace NoBushESP
             TestRayRadius = Config.Bind(
                 "Main Settings",
                 "Width of the Ray that checks if obstruction",
-                1.0f,
+                5.0f,
                 "Don't set this not too small");
             
             BossesStillSee = Config.Bind(
