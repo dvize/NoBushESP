@@ -10,7 +10,7 @@ using System.Reflection;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.2.0")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.3.0")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> BlockingTypeGoalEnemy;
