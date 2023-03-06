@@ -12,17 +12,7 @@ namespace NoBushESP
     public class BushPatch : ModulePatch
     {
 
-        public static WildSpawnType[] bossesList = { WildSpawnType.bossBully, WildSpawnType.bossKilla, WildSpawnType.bossKojaniy, WildSpawnType.bossGluhar, WildSpawnType.bossSanitar, WildSpawnType.bossTagilla,
-                WildSpawnType.bossKnight, WildSpawnType.sectantWarrior, WildSpawnType.sectantPriest, WildSpawnType.bossZryachiy };
-
-        public static WildSpawnType[] followersList = { WildSpawnType.followerBully, WildSpawnType.followerKojaniy, WildSpawnType.followerGluharAssault, WildSpawnType.followerGluharSecurity, WildSpawnType.followerGluharScout,
-                WildSpawnType.followerGluharSnipe, WildSpawnType.followerSanitar, WildSpawnType.followerTagilla, WildSpawnType.followerBigPipe, WildSpawnType.followerBirdEye, WildSpawnType.followerZryachiy };
-
-        public static WildSpawnType[] pmcList = { WildSpawnType.pmcBot, WildSpawnType.exUsec, WildSpawnType.gifter, NoBushESPPlugin.sptUsec, NoBushESPPlugin.sptBear };
-
-        public static WildSpawnType[] scavList = { WildSpawnType.assault, WildSpawnType.marksman, WildSpawnType.cursedAssault, WildSpawnType.assaultGroup };
-
-        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "trees", "pine", "plant"};
+        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "trees", "pine", "plant", "aicollider", "birch", "collider"};
         protected override MethodBase GetTargetMethod()
         {
             try
@@ -52,29 +42,9 @@ namespace NoBushESP
 
                     if (person.GetPlayer.IsYourPlayer)
                     {
-                        //skip if config says disabled
-                        if (scavList.Contains(bot.Profile.Info.Settings.Role) && NoBushESPPlugin.ScavsStillSee.Value)
-                        {
-                            return;
-                        }
-
-                        if (bossesList.Contains(bot.Profile.Info.Settings.Role) && NoBushESPPlugin.BossesStillSee.Value)
-                        {
-                            return;
-                        }
-
-                        if (followersList.Contains(bot.Profile.Info.Settings.Role) && NoBushESPPlugin.BossFollowersStillSee.Value)
-                        {
-                            return;
-                        }
-
-                        if (pmcList.Contains(bot.Profile.Info.Settings.Role) && NoBushESPPlugin.PMCsStillSee.Value)
-                        {
-                            return;
-                        }
 
                         RaycastHit hitInfo;
-                        LayerMask layermask = 1 << 0 | 1 << 11 | 1 << 12 | 1 << 19 | 1 << 26 | 1 << 31 | 1 << 32;
+                        LayerMask layermask = LayerMaskClass.HighPolyWithTerrainMask;
 
                         float maxdistance = Vector3.Distance(bot.Position, person.GetPlayer.Position);
 
@@ -87,19 +57,17 @@ namespace NoBushESP
                             {
                                 if ((bool)(hitInfo.collider.transform.parent?.gameObject?.name.ToLower().Contains(exclusion)))
                                 {
-                                    //Logger.LogInfo("Some object is in the way of the bot.");
-
-                                    //Logger.LogInfo("Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
+                                    Logger.LogDebug("NoBushESP: Blocking Excluded Object Name: " + hitInfo.collider.transform.parent?.gameObject?.name);
 
                                     if (NoBushESPPlugin.BlockingTypeGoalEnemy.Value == true)
                                     {
                                         bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
-                                        Logger.LogInfo("NoBushESP: Blocking GoalEnemy for: " + bot.Profile.Info.Settings.Role);
+                                        Logger.LogDebug("NoBushESP: Blocking GoalEnemy for: " + bot.Profile.Info.Settings.Role);
                                     }
                                     else
                                     {
                                         goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
-                                        Logger.LogInfo("NoBushESP: Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
+                                        Logger.LogDebug("NoBushESP: Setting IsVisible to false for: " + bot.Profile.Info.Settings.Role);
                                     }
 
 
