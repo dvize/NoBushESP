@@ -12,7 +12,7 @@ namespace NoBushESP
     public class BushPatch : ModulePatch
     {
 
-        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "trees", "pine", "plant", "aicollider", "birch", "collider"};
+        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "aicollider", "birch", "collider", "timber", "spruce"};
         protected override MethodBase GetTargetMethod()
         {
             try
