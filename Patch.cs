@@ -13,7 +13,7 @@ namespace NoBushESP
     {
 
         public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "birch", "collider", 
-            "timber", "spruce", "bush", "metal", "wood", "ballistic", "terrain"};
+            "timber", "spruce", "bush", "metal", "wood"};
         protected override MethodBase GetTargetMethod()
         {
             try
@@ -45,12 +45,13 @@ namespace NoBushESP
                     {
                         
                         RaycastHit hitInfo;
-                        LayerMask layermask = LayerMaskClass.HighPolyWithTerrainMask;
-
-                        float maxdistance = Vector3.Distance(bot.Position, person.GetPlayer.Position);
-                        Vector3 direction = person.GetPlayer.Transform.position - bot.Transform.position;
-
-                        if (Physics.Raycast(bot.Position, direction, out hitInfo, maxdistance, layermask))
+                        LayerMask layermask = LayerMaskClass.HighPolyWithTerrainMaskAI;
+                        BodyPartClass bodyPartClass = bot.MainParts[BodyPartType.head];
+                        Vector3 vector = person.MainParts[BodyPartType.head].Position - bodyPartClass.Position;
+                        float magnitude = vector.magnitude;
+                        
+                        
+                        if (Physics.Raycast(new Ray(bodyPartClass.Position, vector), out hitInfo, magnitude, layermask))
                         {
                             //Logger.LogInfo("Object Name: " + hitInfo.transform.parent?.gameObject?.name);
                             //Logger.LogInfo("Object Layer: " + hitInfo.transform.parent?.gameObject?.layer);
@@ -88,7 +89,7 @@ namespace NoBushESP
             }
             catch
             {
-                Logger.LogInfo("NoBushESP: Cannot Assign Brain Because Enemy is Dead or Unspawned");
+                //Logger.LogInfo("NoBushESP: Failed Post Patch");
             }
 
         }
