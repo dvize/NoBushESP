@@ -34,9 +34,13 @@ namespace NoBushESP
             if (currentVersion != buildVersion)
             {
                 Logger.LogError($"ERROR: This version of {Info.Metadata.Name} v{Info.Metadata.Version} was built for Tarkov {buildVersion}, but you are running {currentVersion}. Please download the correct plugin version.");
+                EFT.UI.ConsoleScreen.LogError($"ERROR: This version of {Info.Metadata.Name} v{Info.Metadata.Version} was built for Tarkov {buildVersion}, but you are running {currentVersion}. Please download the correct plugin version.");
                 throw new Exception($"Invalid EFT Version ({currentVersion} != {buildVersion})");
             }
         }
 
+       
     }
+
+    
 }

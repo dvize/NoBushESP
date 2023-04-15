@@ -106,7 +106,9 @@
     <PreBuildEvent>FOR /F %25%25x IN ('tasklist /NH /FI "IMAGENAME eq EscapeFromTarkov.exe"') DO IF %25%25x == EscapeFromTarkov.exe (
 taskkill /F /IM EscapeFromTarkov.exe
 ping -n  2 127.0.0.1 &gt;NUL
-)</PreBuildEvent>
+)
+
+powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\VersionChecker\setbuild.ps1</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI\BepInEx\plugins\dvize.BushNoESP.dll"</PostBuildEvent>
