@@ -21,7 +21,7 @@ namespace NoBushESP
         private static BodyPartClass bodyPartClass;
         private static Vector3 vector;
         private static float magnitude;
-
+        private static string ObjectName;
         protected override MethodBase GetTargetMethod()
         {
             try
@@ -60,7 +60,7 @@ namespace NoBushESP
 
                         if (Physics.Raycast(new Ray(bodyPartClass.Position, vector), out hitInfo, magnitude, layermask))
                         {
-                            var ObjectName = hitInfo.transform.parent?.gameObject?.name;
+                            ObjectName = hitInfo.transform.parent?.gameObject?.name;
                             //Logger.LogInfo("Object Name: " + ObjectName);
                             //Logger.LogInfo("Object Layer: " + hitInfo.transform.parent?.gameObject?.layer);
 
@@ -82,6 +82,7 @@ namespace NoBushESP
                                     {
                                         goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
                                         //Logger.LogInfo($"NoBushESP: Setting IsVisible to false for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
+                                        bot.AimingData.LoseTarget();
                                     }
 
 
