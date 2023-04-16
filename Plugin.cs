@@ -8,7 +8,7 @@ using VersionChecker;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.4.4")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.4.5")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> BlockingTypeGoalEnemy;
