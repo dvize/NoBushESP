@@ -4,6 +4,7 @@ using System.Reflection;
 using Aki.Reflection.Patching;
 using EFT;
 using UnityEngine;
+using HarmonyLib;
 
 namespace NoBushESP
 {
@@ -24,16 +25,7 @@ namespace NoBushESP
         private static string ObjectName;
         protected override MethodBase GetTargetMethod()
         {
-            try
-            {
-                return typeof(BotGroupClass).GetMethod("CalcGoalForBot");
-            }
-            catch
-            {
-                Logger.LogInfo("NoBushESP: Failed to get target method.. target dead or unspawned.");
-            }
-
-            return null;
+            return AccessTools.Method(typeof(BotGroupClass),"CalcGoalForBot");
         }
 
         [PatchPostfix]
@@ -56,9 +48,10 @@ namespace NoBushESP
                         bodyPartClass = bot.MainParts[BodyPartType.head];
                         vector = person.MainParts[BodyPartType.head].Position - bodyPartClass.Position;
                         magnitude = vector.magnitude;
-
+                        float radius = 8.0f;
 
                         if (Physics.Raycast(new Ray(bodyPartClass.Position, vector), out hitInfo, magnitude, layermask))
+                        //if (Physics.SphereCast(bodyPartClass.Position, radius, vector.normalized, out hitInfo, magnitude, layermask))
                         {
                             ObjectName = hitInfo.transform.parent?.gameObject?.name;
                             //Logger.LogInfo("Object Name: " + ObjectName);
@@ -70,22 +63,23 @@ namespace NoBushESP
                                 {
                                     //Logger.LogDebug("NoBushESP: Blocking Excluded Object Name: " + hitInfo.collider.transform.parent?.gameObject?.name);
 
-                                    if (NoBushESPPlugin.BlockingTypeGoalEnemy.Value == true)
-                                    {
-                                        bot.Memory.GetType().GetProperty("GoalEnemy").SetValue(bot.Memory, null);
-                                        //Logger.LogInfo($"NoBushESP: Blocking GoalEnemy for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
-
-                                        bot.AimingData.LoseTarget();
-                                        //Logger.LogDebug("NoBushESP: LoseTarget() AimingData for: " + bot.Profile.Info.Settings.Role);
-                                    }
-                                    else
-                                    {
-                                        goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
-                                        //Logger.LogInfo($"NoBushESP: Setting IsVisible to false for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
-                                        bot.AimingData.LoseTarget();
-                                    }
+                                    goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
+                                    //Logger.LogInfo($"NoBushESP: Setting IsVisible to false for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
+                                    bot.AimingData.LoseTarget();
 
 
+                                    //Try to handle bosses this way.
+                                    //set canshootbystate to false
+                                    //Logger.LogInfo($"NoBushESP: Call EndShoot() for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
+
+                                    bot.ShootData.EndShoot();
+
+                                    // Get the private setter of the CanShootByState property using AccessTools
+                                    var setter = AccessTools.PropertySetter(typeof(GClass546), nameof(GClass546.CanShootByState));
+
+                                    // Use reflection to set the value of the property
+                                    setter.Invoke(bot.ShootData, new object[] { false });
+                                    return;
                                 }
 
                             }
@@ -103,6 +97,4 @@ namespace NoBushESP
 
         }
     }
-
-
 }

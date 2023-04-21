@@ -39,6 +39,13 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="aki-singleplayer">
+      <HintPath>F:\SPT-AKI\BepInEx\plugins\aki-singleplayer.dll</HintPath>
+    </Reference>
     <Reference Include="Aki.Common">
       <HintPath>F:\SPT-AKI\EscapeFromTarkov_Data\Managed\Aki.Common.dll</HintPath>
     </Reference>

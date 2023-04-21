@@ -8,7 +8,7 @@ using VersionChecker;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.4.5")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.0")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> BlockingTypeGoalEnemy;
@@ -16,12 +16,6 @@ namespace NoBushESP
         private void Awake()
         {
             CheckEftVersion();
-
-            BlockingTypeGoalEnemy = Config.Bind(
-                "Main Settings",
-                "Enabled means GoalEnemy Method, Disabled means IsVisible Method",
-                false,
-                "Set True or False to preferred method");
         }
 
         public void Start() => new BushPatch().Enable();
