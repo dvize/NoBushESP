@@ -8,11 +8,9 @@ using VersionChecker;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.0")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.1")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
-        public static ConfigEntry<bool> BlockingTypeGoalEnemy;
-
         private void Awake()
         {
             CheckEftVersion();
