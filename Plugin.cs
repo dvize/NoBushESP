@@ -8,7 +8,7 @@ using VersionChecker;
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.1")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.2")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
         private void Awake()
