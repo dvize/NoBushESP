@@ -23,7 +23,7 @@ namespace NoBushESP
         private static readonly List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "birch", "collider",
         "timber", "spruce", "bush", "metal", "wood"};
     
-        private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered, MaterialType.Concrete, MaterialType.GrassHigh};
+        private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered, MaterialType.Concrete, MaterialType.GrassHigh, MaterialType.GrassLow};
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(BotGroupClass), "CalcGoalForBot");
