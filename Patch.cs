@@ -3,29 +3,30 @@ using System.Collections.Generic;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using EFT;
-using UnityEngine;
+using EFT.Ballistics;
+using EFT.Interactive;
 using HarmonyLib;
+using UnityEngine;
 
 namespace NoBushESP
 {
-
-    public static class ExclusionList
-    {
-        public static List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "birch", "collider",
-        "timber", "spruce", "bush", "metal", "wood"};
-    }
-
     public class BushPatch : ModulePatch
     {
         private static RaycastHit hitInfo;
         private static LayerMask layermask;
         private static BodyPartClass bodyPartClass;
         private static Vector3 vector;
+        private static MaterialType tempMaterial;
         private static float magnitude;
         private static string ObjectName;
+
+        private static readonly List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "birch", "collider",
+        "timber", "spruce", "bush", "metal", "wood"};
+    
+        private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered, MaterialType.Concrete, MaterialType.GrassHigh};
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotGroupClass),"CalcGoalForBot");
+            return AccessTools.Method(typeof(BotGroupClass), "CalcGoalForBot");
         }
 
         [PatchPostfix]
@@ -48,42 +49,37 @@ namespace NoBushESP
                         bodyPartClass = bot.MainParts[BodyPartType.head];
                         vector = person.MainParts[BodyPartType.head].Position - bodyPartClass.Position;
                         magnitude = vector.magnitude;
-                        float radius = 8.0f;
 
                         if (Physics.Raycast(new Ray(bodyPartClass.Position, vector), out hitInfo, magnitude, layermask))
-                        //if (Physics.SphereCast(bodyPartClass.Position, radius, vector.normalized, out hitInfo, magnitude, layermask))
                         {
                             ObjectName = hitInfo.transform.parent?.gameObject?.name;
-                            //Logger.LogInfo("Object Name: " + ObjectName);
-                            //Logger.LogInfo("Object Layer: " + hitInfo.transform.parent?.gameObject?.layer);
 
-                            foreach (string exclusion in ExclusionList.exclusionList)
+                            foreach (string exclusion in exclusionList)
                             {
                                 if ((bool)(ObjectName.ToLower().Contains(exclusion)))
                                 {
-                                    //Logger.LogDebug("NoBushESP: Blocking Excluded Object Name: " + hitInfo.collider.transform.parent?.gameObject?.name);
-
-                                    goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
-                                    //Logger.LogInfo($"NoBushESP: Setting IsVisible to false for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
-                                    bot.AimingData.LoseTarget();
-
-
-                                    //Try to handle bosses this way.
-                                    //set canshootbystate to false
-                                    //Logger.LogInfo($"NoBushESP: Call EndShoot() for: {bot.Profile.Info.Settings.Role} at {ObjectName}");
-
-                                    bot.ShootData.EndShoot();
-
-                                    // Get the private setter of the CanShootByState property using AccessTools
-                                    var setter = AccessTools.PropertySetter(typeof(GClass546), nameof(GClass546.CanShootByState));
-
-                                    // Use reflection to set the value of the property
-                                    setter.Invoke(bot.ShootData, new object[] { false });
+                                    blockShooting(bot, goalEnemy);
                                     return;
                                 }
 
                             }
+
+                            tempMaterial = hitInfo.transform.gameObject.GetComponentInParent<BallisticCollider>().TypeOfMaterial;
+                            //look for component in parent for BallisticsCollider and then check material type
+                            if (Vector3.Distance(hitInfo.transform.position, bodyPartClass.Position) > 50)
+                            {
+                                foreach(MaterialType material in extraMaterialList)
+                                {
+                                    if (tempMaterial == material)
+                                    {
+                                        blockShooting(bot, goalEnemy);
+                                        return;
+                                    }
+
+                                }
+                            }
                         }
+
 
 
                     }
@@ -96,5 +92,22 @@ namespace NoBushESP
             }
 
         }
+
+
+        private static void blockShooting(BotOwner bot, object goalEnemy)
+        {
+            goalEnemy.GetType().GetProperty("IsVisible").SetValue(goalEnemy, false);
+
+            bot.AimingData.LoseTarget();
+            bot.ShootData.EndShoot();
+
+            // Get the private setter of the CanShootByState property using AccessTools
+            var setter = AccessTools.PropertySetter(typeof(GClass546), nameof(GClass546.CanShootByState));
+
+            // Use reflection to set the value of the property
+            setter.Invoke(bot.ShootData, new object[] { false });
+
+        }
+
     }
 }

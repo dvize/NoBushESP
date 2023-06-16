@@ -1,10 +1,10 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.Logging;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using BepInEx;
+using BepInEx.Configuration;
+using BepInEx.Logging;
 using UnityEngine;
 
 namespace VersionChecker

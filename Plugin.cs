@@ -1,14 +1,12 @@
-﻿using System.Diagnostics;
-using System;
-using BepInEx;
-using BepInEx.Configuration;
+﻿using System;
 using System.Diagnostics;
+using BepInEx;
 using VersionChecker;
 
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.2")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.5.3")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
         private void Awake()
@@ -31,8 +29,8 @@ namespace NoBushESP
             }
         }
 
-       
+
     }
 
-    
+
 }
