@@ -23,7 +23,7 @@ namespace NoBushESP
         private static readonly List<string> exclusionList = new List<string> { "filbert", "fibert", "tree", "pine", "plant", "birch", "collider",
         "timber", "spruce", "bush", "metal", "wood"};
     
-        private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered, MaterialType.Concrete, MaterialType.GrassHigh, MaterialType.GrassLow};
+        private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered};
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(BotGroupClass), "CalcGoalForBot");
@@ -45,7 +45,8 @@ namespace NoBushESP
 
                     if (person.GetPlayer.IsYourPlayer)
                     {
-                        layermask = LayerMaskClass.HighPolyWithTerrainMaskAI;
+                        layermask = LayerMaskClass.HighPolyWithTerrainMaskAI | 30 | 31;
+
                         bodyPartClass = bot.MainParts[BodyPartType.head];
                         vector = person.MainParts[BodyPartType.head].Position - bodyPartClass.Position;
                         magnitude = vector.magnitude;
@@ -66,6 +67,14 @@ namespace NoBushESP
 
                             tempMaterial = hitInfo.transform.gameObject.GetComponentInParent<BallisticCollider>().TypeOfMaterial;
                             //look for component in parent for BallisticsCollider and then check material type
+                            if((tempMaterial == MaterialType.GrassHigh || tempMaterial == MaterialType.GrassLow) &&
+                                Vector3.Distance(hitInfo.transform.position, bodyPartClass.Position) > 25)
+                            {
+                            
+                                blockShooting(bot, goalEnemy);
+                                return;
+                            }
+
                             if (Vector3.Distance(hitInfo.transform.position, bodyPartClass.Position) > 50)
                             {
                                 foreach(MaterialType material in extraMaterialList)
