@@ -43,7 +43,7 @@ namespace NoBushESP
                 {
                     IAIDetails person = (IAIDetails)goalEnemy.GetType().GetProperty("Person").GetValue(goalEnemy);
 
-                    if (person.GetPlayer.IsYourPlayer)
+                    if (person.IsYourPlayer)
                     {
                         layermask = LayerMaskClass.HighPolyWithTerrainMaskAI | 30 | 31;
 
@@ -111,7 +111,7 @@ namespace NoBushESP
             bot.ShootData.EndShoot();
 
             // Get the private setter of the CanShootByState property using AccessTools
-            var setter = AccessTools.PropertySetter(typeof(GClass546), nameof(GClass546.CanShootByState));
+            var setter = AccessTools.PropertySetter(typeof(GClass549), nameof(GClass549.CanShootByState));
 
             // Use reflection to set the value of the property
             setter.Invoke(bot.ShootData, new object[] { false });
