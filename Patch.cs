@@ -14,7 +14,7 @@ namespace NoBushESP
     {
         private static RaycastHit hitInfo;
         private static LayerMask layermask;
-        private static BodyPartClass bodyPartClass;
+        private static EnemyPart bodyPartClass;
         private static Vector3 vector;
         private static MaterialType tempMaterial;
         private static float magnitude;
@@ -26,7 +26,7 @@ namespace NoBushESP
         private static readonly List<MaterialType> extraMaterialList = new List<MaterialType> { MaterialType.Glass, MaterialType.GlassVisor, MaterialType.GlassShattered};
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotGroupClass), "CalcGoalForBot");
+            return AccessTools.Method(typeof(BotsGroup), "CalcGoalForBot");
         }
 
         [PatchPostfix]
@@ -37,11 +37,11 @@ namespace NoBushESP
             {
                 //Need when enemy is alerted to player 
 
-                object goalEnemy = bot.Memory.GetType().GetProperty("GoalEnemy").GetValue(bot.Memory);
+                object goalEnemy = bot.Memory.GoalEnemy;
 
                 if (goalEnemy != null)
                 {
-                    IAIDetails person = (IAIDetails)goalEnemy.GetType().GetProperty("Person").GetValue(goalEnemy);
+                    var person = bot.Memory.GoalEnemy.Person;
 
                     if (person.IsYourPlayer)
                     {
@@ -111,7 +111,7 @@ namespace NoBushESP
             bot.ShootData.EndShoot();
 
             // Get the private setter of the CanShootByState property using AccessTools
-            var setter = AccessTools.PropertySetter(typeof(GClass549), nameof(GClass549.CanShootByState));
+            var setter = AccessTools.PropertySetter(typeof(ShootData), nameof(ShootData.CanShootByState));
 
             // Use reflection to set the value of the property
             setter.Invoke(bot.ShootData, new object[] { false });
