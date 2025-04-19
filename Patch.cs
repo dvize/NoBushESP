@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 using dvize.BushNoESP;
 using EFT;
 using EFT.Ballistics;
@@ -28,36 +28,30 @@ namespace NoBushESP
         [PatchPostfix]
         public static void PatchPostfix(BotOwner bot)
         {
-            try
+            var goalEnemy = bot.Memory.GoalEnemy;
+            if (goalEnemy == null) return;
+
+            var person = bot.Memory.GoalEnemy.Person;
+            if (!person.IsYourPlayer) return;
+
+            Vector3 headPosition = bot.MainParts[BodyPartType.head].Position;
+            Vector3 enemyHeadPosition = person.MainParts[BodyPartType.head].Position;
+            Vector3 direction = enemyHeadPosition - headPosition;
+            float distance = direction.magnitude;
+
+            if (!Physics.Raycast(new Ray(headPosition, direction), out RaycastHit hitInfo, distance, GetLayerMask())) return;
+
+            string objectName = hitInfo.transform.parent?.gameObject?.name?.ToLower();
+            if (exclusionList.Any(exclusion => objectName.Contains(exclusion)))
             {
-                var goalEnemy = bot.Memory.GoalEnemy;
-                if (goalEnemy == null) return;
-
-                var person = bot.Memory.GoalEnemy.Person;
-                if (!person.IsYourPlayer) return;
-
-                Vector3 headPosition = bot.MainParts[BodyPartType.head].Position;
-                Vector3 enemyHeadPosition = person.MainParts[BodyPartType.head].Position;
-                Vector3 direction = enemyHeadPosition - headPosition;
-                float distance = direction.magnitude;
-
-                if (!Physics.Raycast(new Ray(headPosition, direction), out RaycastHit hitInfo, distance, GetLayerMask())) return;
-
-                string objectName = hitInfo.transform.parent?.gameObject?.name?.ToLower();
-                if (exclusionList.Any(exclusion => objectName.Contains(exclusion)))
-                {
-                    BlockShooting(bot, goalEnemy);
-                    return;
-                }
-
-                MaterialType materialType = hitInfo.transform.gameObject.GetComponentInParent<BallisticCollider>()?.TypeOfMaterial ?? default;
-                if (IsMaterialBlockingShot(materialType, hitInfo.transform.position, headPosition))
-                {
-                    BlockShooting(bot, goalEnemy);
-                }
+                BlockShooting(bot, goalEnemy);
+                return;
             }
-            catch (Exception ex)
+
+            MaterialType materialType = hitInfo.transform.gameObject.GetComponentInParent<BallisticCollider>()?.TypeOfMaterial ?? default;
+            if (IsMaterialBlockingShot(materialType, hitInfo.transform.position, headPosition))
             {
+                BlockShooting(bot, goalEnemy);
             }
         }
 
@@ -78,10 +72,9 @@ namespace NoBushESP
         private static void BlockShooting(BotOwner bot, EnemyInfo goalEnemy)
         {
             ReflectionHelper.SetProperty(goalEnemy, "IsVisible", false);
-            bot.AimingData.LoseTarget();
+            bot.AimingManager.CurrentAiming?.LoseTarget();
             bot.ShootData.EndShoot();
             ReflectionHelper.SetProperty(bot.ShootData, "CanShootByState", false);
         }
-
     }
 }

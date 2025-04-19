@@ -42,71 +42,61 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="aki-singleplayer">
-      <HintPath>F:\SPT-AKI-DEV\BepInEx\plugins\aki-singleplayer.dll</HintPath>
-    </Reference>
-    <Reference Include="Aki.Common">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Aki.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Aki.Reflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Aki.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="aki_PrePatch">
-      <HintPath>F:\SPT-AKI-DEV\BepInEx\patchers\aki_PrePatch.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.21.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Comfort">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
     </Reference>
     <Reference Include="Comfort.Unity, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Comfort.Unity.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\Comfort.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>..\..\..\..\..\EscapeFromTarkov\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +113,12 @@ ping -n  2 127.0.0.1 &gt;NUL
 )</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll"
+    <PostBuildEvent>copy "$(TargetPath)" "C:\EscapeFromTarkovDevelopment\BepInEx\plugins\$(TargetName).dll"
 
 if $(ConfigurationName) == Debug (
-    copy "$(TargetDir)$(TargetName).pdb" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
+    copy "$(TargetDir)$(TargetName).pdb" C:\EscapeFromTarkovDevelopment\BepInEx\plugins\$(TargetName).pdb"
 ) else (
-    del "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
+    del "C:\EscapeFromTarkovDevelopment\BepInEx\plugins\$(TargetName).pdb"
 )
 </PostBuildEvent>
   </PropertyGroup>

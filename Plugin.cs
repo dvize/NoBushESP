@@ -1,20 +1,15 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 
 namespace NoBushESP
 {
 
-    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "1.8.0")]
-    //[BepInDependency("com.spt-aki.core", "3.7.4")]
+    [BepInPlugin("com.dvize.BushNoESP", "dvize.BushNoESP", "2.0.0")]
     class NoBushESPPlugin : BaseUnityPlugin
     {
-        private void Awake()
+        public void Awake() 
         {
-
+            new BushPatch().Enable();
         }
-
-        public void Start() => new BushPatch().Enable();
-
     }
-
-
 }
